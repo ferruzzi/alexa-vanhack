@@ -1,0 +1,40 @@
+{
+  "deploy_settings": {
+    "default": {
+      "skill_id": "amzn1.ask.skill.89fa507d-8e84-4a75-8a20-aa3ada8dd204",
+      "was_cloned": false,
+      "merge": {
+        "manifest": {
+          "apis": {
+            "custom": {
+              "endpoint": {
+                "uri": "ask-custom-vanhack-default"
+              }
+            }
+          }
+        }
+      },
+      "resources": {
+        "manifest": {
+          "eTag": "2beee03a809642ae00ac8bd69070b81b"
+        },
+        "interactionModel": {
+          "en-US": {
+            "eTag": "9d9af1509846c806516b02b4b5dbea54"
+          }
+        },
+        "lambda": [
+          {
+            "arn": "arn:aws:lambda:us-east-1:250493968031:function:ask-custom-vanhack-default",
+            "functionName": "arn:aws:lambda:us-east-1:250493968031:function:ask-custom-vanhack-default",
+            "awsRegion": "us-east-1",
+            "alexaUsage": [
+              "custom/default"
+            ],
+            "revisionId": "19bb2a82-7644-4be7-ac55-17ff3561deef"
+          }
+        ]
+      }
+    }
+  }
+}

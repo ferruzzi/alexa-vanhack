@@ -1,0 +1,58 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "vhs",
+      "types": [
+
+      ],
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+
+          ]
+        },
+        
+        {
+          "name": "IsVHSOpenIntent",
+          "slots": [
+
+          ],
+          "samples": [
+            "if they are open",
+            "if VHS is open",
+            "are you open",
+            "is VHS open",
+            "Is Vanhack open",
+            "Is the door open",
+            "Can I get in"
+          ]
+        },
+        
+        {
+          "name": "HelloWorldIntent",
+          "slots": [
+
+          ],
+          "samples": [
+            "hello",
+            "say hello",
+            "say hello world"
+          ]
+        }
+      ]
+    }
+  }
+}
