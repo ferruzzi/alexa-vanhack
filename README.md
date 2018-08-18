@@ -3,7 +3,7 @@
 ## An Alexa skill to tie into the VHS API for door and equipment status. 
 
 ### Currently supported:
-* Alexa, ask VHS if they are ope
+* Alexa, ask VHS if they are open
 * Alexa, ask VHS if the laser is free
 
 ### Current Issues:
