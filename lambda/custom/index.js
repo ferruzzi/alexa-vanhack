@@ -58,12 +58,10 @@ const IsVHSOpenIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'IsVHSOpenIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         let url = "https://api.vanhack.ca/s/vhs/data/door.json";
 
-// HELP:  I think I have a scope issue with speechText here
-
-        getWebRequest(url, function webResonseCallback(err, data) {
+        getWebRequest(url, function webResponseCallback(err, data) {
             if (err) {
                 speechText = "Sorry I couldn't connect to the server: " + err;
             } else {
@@ -89,29 +87,29 @@ const EquipmentUseIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'EquipmentUseIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         let url = "https://api.vanhack.ca/s/vhs/data/laser.json";
 
-        getWebRequest(url, function webResonseCallback(err, data) {
+        getWebRequest(url, function webResponseCallback(err, data) {
             if (err) {
                 const speechText = "Sorry I couldn't connect to the server: " + err;
             } else {
                 const EquipmentStatus = data.value;
-                const speechText = 'Currently the laser is ' + EquipmentStatus;
+                speechText2 = 'Currently the laser is ' + EquipmentStatus;
             }
         });
 
         return handlerInput.responseBuilder
-            .speak(speechText)
-            .withSimpleCard('VHS', speechText)
+            .speak(speechText2)
+            .withSimpleCard('VHS', speechText2)
             .getResponse();
     },
 };
 
-const HelloWorldIntentHandler = {
+const HelloIntentHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'HelloWorldIntent';
+            && handlerInput.requestEnvelope.request.intent.name === 'HelloIntent';
     },
     handle(handlerInput) {
         const speechText = 'Hello Hacker!';
@@ -187,7 +185,7 @@ exports.handler = skillBuilder
         LaunchRequestHandler,
         IsVHSOpenIntentHandler,
         EquipmentUseIntentHandler,
-        HelloWorldIntentHandler,
+        HelloIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         SessionEndedRequestHandler
