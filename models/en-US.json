@@ -24,7 +24,7 @@
 
           ]
         },
-        
+
         {
           "name": "IsVHSOpenIntent",
           "slots": [
@@ -40,7 +40,19 @@
             "Can I get in"
           ]
         },
-        
+
+        {
+          "name": "EquipmentUseIntent",
+          "slots": [
+
+          ],
+          "samples": [
+            "if the laser is free",
+            "if the laser is in use",
+            "if the laser is available"
+          ]
+        },
+
         {
           "name": "HelloWorldIntent",
           "slots": [
