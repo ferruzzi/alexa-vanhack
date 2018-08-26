@@ -2,34 +2,22 @@
   "interactionModel": {
     "languageModel": {
       "invocationName": "vhs",
-      "types": [
-
-      ],
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
-          "samples": [
-
-          ]
+          "samples": []
         },
         {
           "name": "AMAZON.HelpIntent",
-          "samples": [
-
-          ]
+          "samples": []
         },
         {
           "name": "AMAZON.StopIntent",
-          "samples": [
-
-          ]
+          "samples": []
         },
-
         {
           "name": "IsVHSOpenIntent",
-          "slots": [
-
-          ],
+          "slots": [],
           "samples": [
             "if they are open",
             "if VHS is open",
@@ -40,11 +28,13 @@
             "Can I get in"
           ]
         },
-
         {
           "name": "EquipmentUseIntent",
           "slots": [
-
+            {
+              "name": "Equipment",
+              "type": "VHS_Equipment_List"
+            }
           ],
           "samples": [
             "if the laser is free",
@@ -52,16 +42,35 @@
             "if the laser is available"
           ]
         },
-
         {
           "name": "HelloIntent",
-          "slots": [
-
-          ],
+          "slots": [],
           "samples": [
             "hello",
             "say hello",
             "say hello world"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "VHS_Equipment_List",
+          "values": [
+            {
+              "name": {
+                "value": "Mill"
+              }
+            },
+            {
+              "name": {
+                "value": "Lathe"
+              }
+            },
+            {
+              "name": {
+                "value": "Laser"
+              }
+            }
           ]
         }
       ]
