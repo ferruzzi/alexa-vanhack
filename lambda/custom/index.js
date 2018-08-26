@@ -11,7 +11,7 @@ function getWebRequest(url,doWebRequestCallBack) {
     https.get(url, function (res) {
         var webResponseString = '';
 
-        if (res.statusCode != 200) {
+        if (res.statusCode !== 200) {
             doWebRequestCallBack(new Error("Non 200 Response"));
         }
 
@@ -92,7 +92,7 @@ const EquipmentUseIntentHandler = {
 
         await getWebRequest(url, function webResponseCallback(err, data) {
             if (err) {
-                const speechText2 = "Sorry I couldn't connect to the server: " + err;
+                speechText2 = "Sorry I couldn't connect to the server: " + err;
             } else {
                 const EquipmentStatus = data.value;
                 speechText2 = 'Currently the laser is ' + EquipmentStatus;
