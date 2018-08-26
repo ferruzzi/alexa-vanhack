@@ -61,7 +61,7 @@ const IsVHSOpenIntentHandler = {
     async handle(handlerInput) {
         let url = "https://api.vanhack.ca/s/vhs/data/door.json";
 
-        getWebRequest(url, function webResponseCallback(err, data) {
+        await getWebRequest(url, function webResponseCallback(err, data) {
             if (err) {
                 speechText = "Sorry I couldn't connect to the server: " + err;
             } else {
@@ -90,9 +90,9 @@ const EquipmentUseIntentHandler = {
     async handle(handlerInput) {
         let url = "https://api.vanhack.ca/s/vhs/data/laser.json";
 
-        getWebRequest(url, function webResponseCallback(err, data) {
+        await getWebRequest(url, function webResponseCallback(err, data) {
             if (err) {
-                const speechText = "Sorry I couldn't connect to the server: " + err;
+                const speechText2 = "Sorry I couldn't connect to the server: " + err;
             } else {
                 const EquipmentStatus = data.value;
                 speechText2 = 'Currently the laser is ' + EquipmentStatus;
