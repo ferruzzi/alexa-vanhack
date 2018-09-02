@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "vhs",
+      "invocationName": "v.h.s.",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -20,9 +20,9 @@
           "slots": [],
           "samples": [
             "if they are open",
-            "if VHS is open",
+            "if V.H.S. is open",
             "are you open",
-            "is VHS open",
+            "is V.H.S. open",
             "Is Vanhack open",
             "Is the door open",
             "Can I get in"
