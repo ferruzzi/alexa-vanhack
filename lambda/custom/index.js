@@ -43,7 +43,7 @@ const LaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speechText = 'Hack the planet!';
+        const speechText = 'Hack the planet!  I am here to check in on the hackspace for you.  You can ask me if the space is open, or if certain pieces of equipment are currently in use.';
 
         return handlerInput.responseBuilder
             .speak(speechText)
