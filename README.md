@@ -23,11 +23,11 @@ I think there is a scope issue with the getWebRequest function returning speechT
 ### Development
 
 - Install ASK
- - `npm install -g ask-cli`
+  - `npm install -g ask-cli`
 - Setup ASK
- - `ask init`
- - Make sure you have set up your AWS developer account and your AWS account
+  - `ask init`
+  - Make sure you have set up your AWS developer account and your AWS account
 - Create a new ASK project
- - `ask new -n vanhack`
+  - `ask new -n vanhack`
 - Clone this project
- - `git clone git@github.com:<user>/alexa-vanhack.git alexa-vanhack`
+  - `git clone git@github.com:<user>/alexa-vanhack.git alexa-vanhack`
