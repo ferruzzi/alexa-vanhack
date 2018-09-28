@@ -19,3 +19,15 @@ There is currently a bug where the skill always responds to the previous utteran
 * R: The laser is currently off
 
 I think there is a scope issue with the getWebRequest function returning speechText
+
+### Development
+
+- Install ASK
+ - `npm install -g ask-cli`
+- Setup ASK
+ - `ask init`
+ - Make sure you have set up your AWS developer account and your AWS account
+- Create a new ASK project
+ - `ask new -n vanhack`
+- Clone this project
+ - `git clone git@github.com:<user>/alexa-vanhack.git alexa-vanhack`
