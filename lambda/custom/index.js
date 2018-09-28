@@ -1,41 +1,36 @@
 /* eslint-disable  func-names */
 /* eslint-disable  no-console */
+/* jslint esversion: 6 */
 
 const Alexa = require('ask-sdk-core');
-const https = require('https');
+var rp = require('request-promise');
 
 const noList = ["Sorry", "Unfortunately", "Sadly", "Alas", "I\'m sad to say that", "Out of luck", "No", "Nope", "What a bummer", "My magic eight ball says"];
 const yesList = ["Yes", "Thankfully", "Indeed", "Yup", "I\'m happy to report that", "In fact", "Luckily", "What do you know", "Look at that", "Your stars have aligned", "Sure"];
 
-function getWebRequest(url,doWebRequestCallBack) {
-    https.get(url, function (res) {
-        var webResponseString = '';
+function getWebRequest(url) {
+    let params = {
+        uri: url
+    };
 
-        if (res.statusCode !== 200) {
-            doWebRequestCallBack(new Error("Non 200 Response"));
+    return rp(params).then(function (response) {
+        if (typeof response != 'object')
+            response = JSON.parse(response);
+
+        if (response.error) {
+            throw new Error(response.error.message);
+        } else {
+            return response;
         }
-
-        res.on('data', function (data) {
-            webResponseString += data;
-        });
-
-        res.on('end', function () {
-            var webResponseObject = JSON.parse(webResponseString);
-            if (webResponseObject.error) {
-                doWebRequestCallBack(new Error(webResponseObject.error.message));
-            } else {
-                doWebRequestCallBack(null, webResponseObject);
-            }
-        });
-    }).on('error', function (e) {
-        doWebRequestCallBack(new Error(e.message));
+    }).catch(function (err) {
+        return err;
     });
 }
 
-function randReply (options) {
+function randReply(options) {
     i = Math.floor(Math.random() * options.length);
 
-    return(options[i]);
+    return (options[i]);
 }
 
 const LaunchRequestHandler = {
@@ -55,61 +50,60 @@ const LaunchRequestHandler = {
 
 const IsVHSOpenIntentHandler = {
     canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'IsVHSOpenIntent';
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+            handlerInput.requestEnvelope.request.intent.name === 'IsVHSOpenIntent';
     },
-    async handle(handlerInput) {
+    handle(handlerInput) {
         let url = "https://api.vanhack.ca/s/vhs/data/door.json";
 
-        await getWebRequest(url, function webResponseCallback(err, data) {
-            if (err) {
-                speechText = "Sorry I couldn't connect to the server: " + err;
-            } else {
-                const doorStatus = data.value;
-                if (doorStatus === 'open') {
-                    speechText = randReply(yesList);
-                } else {
-                    speechText = randReply(noList);
-                }
-                speechText += ', we are ' + doorStatus;
-            }
-        });
+        return getWebRequest(url).then(function (data) {
+            var doorStatus = data.value;
 
-        return handlerInput.responseBuilder
-            .speak(speechText)
-            .withSimpleCard('VHS', speechText)
-            .getResponse();
-    },
+            switch (doorStatus) {
+                case 'open':
+                    return randReply(yesList) + ', we are ' + doorStatus;
+                case 'closed':
+                    return randReply(noList) + ', we are ' + doorStatus;
+                default:
+                    return "I'm not really sure if the space is open or not! Better check isvhsopen.com!";
+            }
+        }).catch(function (err) {
+            return "An error occured! The error was " + err;
+        }).then(function (speechText) {
+            return handlerInput.responseBuilder
+                .speak(speechText)
+                .withSimpleCard('VHS', speechText)
+                .getResponse();
+        });
+    }
 };
 
 const EquipmentUseIntentHandler = {
     canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'EquipmentUseIntent';
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+            handlerInput.requestEnvelope.request.intent.name === 'EquipmentUseIntent';
     },
-    async handle(handlerInput) {
+    handle(handlerInput) {
         let url = "https://api.vanhack.ca/s/vhs/data/laser.json";
 
-        await getWebRequest(url, function webResponseCallback(err, data) {
-            if (err) {
-                speechText2 = "Sorry I couldn't connect to the server: " + err;
-            } else {
-                const EquipmentStatus = data.value;
-                speechText2 = 'Currently the laser is ' + EquipmentStatus;
-            }
+        return getWebRequest(url).then(function (data) {
+            const EquipmentStatus = data.value;
+            return 'Currently the laser is ' + EquipmentStatus;
+        }).catch(function (err) {
+            return "An error occured! The error was " + err;
+        }).then(function (speechText) {
+            return handlerInput.responseBuilder
+                .speak(speechText)
+                .withSimpleCard('VHS', speechText)
+                .getResponse();
         });
-
-        return handlerInput.responseBuilder
-            .speak(speechText2)
-            .withSimpleCard('VHS', speechText2)
-            .getResponse();
     },
 };
 
 const HelloIntentHandler = {
     canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'HelloIntent';
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+            handlerInput.requestEnvelope.request.intent.name === 'HelloIntent';
     },
     handle(handlerInput) {
         const speechText = 'Hello Hacker!';
@@ -123,8 +117,8 @@ const HelloIntentHandler = {
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+            handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
         const speechText = 'You can say hello to me!  Of course if you want to put me to work, you can ask if VHS is open as well.';
@@ -139,9 +133,9 @@ const HelpIntentHandler = {
 
 const CancelAndStopIntentHandler = {
     canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
-                || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+            (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent' ||
+                handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
     },
     handle(handlerInput) {
         const speechText = 'Happy hacking!';
